@@ -13,6 +13,7 @@ import { useEffect,useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import  { Toaster } from 'react-hot-toast'
+import { axiosInstance } from './lib/axios.js'
 
 //tanstack query is used in place of useState,in useState we have to manually handle the loading state, error state and data state
 // whereas in tanstack query it is handled automatically
@@ -30,6 +31,16 @@ import  { Toaster } from 'react-hot-toast'
 // console.log(data, isLoading, error);
 
 const App = () => {
+
+  //auth check
+  const {data,isLoading,error} = useQuery({
+    queryKey: ['todos'],
+    queryFn: async () => {
+      const response = await axiosInstance.get('/auth/me');
+      return response.data;
+    },
+    retry: false, // Disable automatic retries on failure
+  });
 
   return (
     <div className="h-screen" data-theme="night">

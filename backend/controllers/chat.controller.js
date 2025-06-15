@@ -1,4 +1,4 @@
-import { generateStreamToken } from "../lib/stream.connection";
+import { generateStreamToken } from "../lib/stream.connection.js";
 
 export async function getStreamToken(req, res) {
     try {
