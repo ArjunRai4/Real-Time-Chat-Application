@@ -13,17 +13,19 @@ import  { Toaster } from 'react-hot-toast'
 import PageLoader from './components/PageLoader.jsx'
 import useAuthUser from './hooks/useAuthUser.js'
 import Layout from './components/Layout.jsx'
+import { useThemeStore } from './store/useThemeStore.js'
 
 //tanstack query is used in place of useState,in useState we have to manually handle the loading state, error state and data state
 // whereas in tanstack query it is handled automatically
 //use mutation for post,delete,put requests and useQuery for get requests
 //axions is like fetch but it is more powerful and has more features
-
+//zustan creates a global state,which here is used to provide theme 
 
 const App = () => {
 
   //auth check
   const {isLoading,authUser}=useAuthUser();
+  const {theme}=useThemeStore();
 
   const isAuthenticated=Boolean(authUser);
   const isOnboarded=authUser?.isOnboarded;
@@ -31,8 +33,8 @@ const App = () => {
   if(isLoading) return <PageLoader/>
 
   return (
-    <div className="h-screen" data-theme="night">
-
+    <div className="h-screen" data-theme={theme}>
+      
       <Routes >
         <Route path="/" element={isAuthenticated && isOnboarded ? (
           <Layout showSidebar={true}>
