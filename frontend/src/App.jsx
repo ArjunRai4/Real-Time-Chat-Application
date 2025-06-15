@@ -12,6 +12,7 @@ import ChatPage from './pages/ChatPage.jsx'
 import  { Toaster } from 'react-hot-toast'
 import PageLoader from './components/PageLoader.jsx'
 import useAuthUser from './hooks/useAuthUser.js'
+import Layout from './components/Layout.jsx'
 
 //tanstack query is used in place of useState,in useState we have to manually handle the loading state, error state and data state
 // whereas in tanstack query it is handled automatically
@@ -34,7 +35,9 @@ const App = () => {
 
       <Routes >
         <Route path="/" element={isAuthenticated && isOnboarded ? (
-          <Homepage />
+          <Layout showSidebar={true}>
+            <Homepage />
+          </Layout>
           ) : (
             <Navigate to={!isAuthenticated ? "/login" : "/onboarding"}/>
             )} />
