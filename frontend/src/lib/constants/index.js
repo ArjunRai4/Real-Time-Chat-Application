@@ -177,6 +177,7 @@ export const LANGUAGES = [
   "Italian",
   "Turkish",
   "Dutch",
+  "Swedish",
 ];
 
 export const LANGUAGE_TO_FLAG = {
