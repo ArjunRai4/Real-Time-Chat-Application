@@ -10,11 +10,11 @@ export async function getRecommendedUser(req,res){
         const recommendedUsers=await User.find({
             $and:[
                 {_id:{$ne: currentUserId}},//exclude current user
-                {$id:{$nin:currentUser.friends}},// exclude current user's friends
+                {_id:{$nin:currentUser.friends}},// exclude current user's friends
                 {isOnboarded:true}
             ]
         })
-        res.status(200).json({recommendedUsers});
+        res.status(200).json(recommendedUsers);
     } catch (error) {
         console.error("Error in getRecommendedUser controller",error.message);
         return res.status(500).json({ message: "Internal Server error"});
@@ -115,18 +115,18 @@ export async function acceptFriendRequest(req,res){
 
 export async function getFriendRequest(req,res){
     try {
-        const incomingRequest = await FriendRequest.findOne({
+        const incomingReqs = await FriendRequest.find({
             recipient: req.user.id,
             status: "pending"
         }).populate("sender", "fullName profilePic nativeLanguage learningLanguage");
         //populate is used to replace the sender field with the actual user data
 
-        const acceptedReqs = await FriendRequest.findOne({
+        const acceptedReqs = await FriendRequest.find({
             sender: req.user.id,
             status: "accepted"
         }).populate("recipient", "fullName profilePic");
 
-        res.status(200).json({ incomingRequest, acceptedReqs });
+        res.status(200).json({ incomingReqs, acceptedReqs });
     } catch (error) {
         console.error("Error in getFriendRequest controller",error.message);
         return res.status(500).json({ message: "Internal Server error"});
